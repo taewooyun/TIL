@@ -135,16 +135,25 @@ input 회로
 IH에서 IL 로 도달한 시점부터 0으로 인식
 IL에서 IH 로 도달한 시점부터 1으로 인식
 
+
+## GPIO 레지스터와 설정
+
 ### GPIOx MODER
+- GPIO 모드 설정
 mode register
 MODER[1:0]
-00
-01
-10
-11
+00 input
+01 general purpose output mode
+10 alternate function
+11 analog mode
 
 ### GPIOx OTYPER
 ### GPIOx PUPDR
+00 nopullup pulldown
+01 pull up
+10 pull down
+11 reserved
+
 ### GPIOx IDR
 ### GPIOx ODR
 ### GPIOx BSRR
@@ -156,6 +165,43 @@ MODER[1:0]
 LED 장착해보기
 
 Clock을 먼저 공급
+
+
+레지스터 레벨 코드
+```c
+	RCC->AHB1ENR |= (1<<0); // GPIOA(0) clock enable
+	GPIOA->MODER &= ~(3<<(2*9)); // PA9 clear
+	GPIOA->MODER |= (1<<(2*9)); // mode for PA9 : output
+	
+	RCC->AHB1ENR |= (1<<2); // GPIOC clock enable
+	GPIOC->MODER &= ~(3<<(2*7)); // PC7 clear : mode input
+	GPIOC->PUPDR &= ~(3<<(2*13)); // PC13 clear : mode no pullup no pulldown
+
+    if(GPIOC->IDR & (1<<7)){
+        GPIOA->BSRR = (1<<9);
+    } else{
+        GPIOA->BSRR = (1<<(9+16));
+    }
+    
+    if(GPIOC->IDR & (1<<13)){
+        GPIOA->BSRR = (1<<(9+16));
+    } else{
+        GPIOA->BSRR = (1<<9);
+    }
+    
+```
+- clock enable을 안해도 되는건가
+- 같이 구성하면 안되는건가
+
+
+```
+if((GPIOC->IDR & (1<<7)) || (GPIOC->IDR & (1<<13))){
+			GPIOA->BSRR = (1<<(9+16));
+		} else{
+			GPIOA->BSRR = (1<<9);
+		}
+```
+- 오류 : 작동 안함
 
 
 

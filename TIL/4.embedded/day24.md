@@ -142,6 +142,7 @@ iRAM : 0x2000:0000 0x1:8000(64KB + 32KB)
 devx
 
 ### ELF 메모리 섹션 구조
+
 a.out(ELF) - sectionS
     .TEXT
         - 정의 : 실행 코드 저장 영역
@@ -354,6 +355,17 @@ ID
 - inconsistans 상태?
 - 왜 RTos는 MPU를 사용해야하는가. 프로세서에 할당된 주소가 연속적으로 있어서?
 
+● 저장 클래스(storage class)
+auto
+static
+register
+extern
+
+● 타입 수식어(type qualifier)
+const
+volatile
+restrict
+
 
 - 데이터섹션이 램으로 올라가는 과정
 - text는 안올라간다?
@@ -370,6 +382,9 @@ ID
 - Stack pointer가 가리키는 값
 - peripheral
 - ARM(32bit) = ALU word의 사이즈
+
+
+
 
 
 
