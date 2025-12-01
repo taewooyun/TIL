@@ -402,7 +402,7 @@ register int i; // @ register
 
 pipeline
 - 분업으로 퍼포먼스를 올릴 수 있음
-- 스루 풀? 을 높일 수 있다
+- 스루 풋 을 높일 수 있다
 
 IF - ID - IE(overwraped pipeline)
 
